@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registered Users</title>
+</head>
+<body>
+  <h1>Registered Users</h1>
+  <button onclick="fetchUsers()">Ver Usuarios</button>
+  <button onclick="registerUser()">Registrar Usuario Random</button>
+  <button onclick="deleteUsers()">Eliminar Todos los Usuarios</button>
+  <div id="users"></div>
+
+  <script>
+    async function fetchUsers() {
+      try {
+        const response = await fetch('/users');
+        const users = await response.json();
+        const usersDiv = document.getElementById('users');
+        usersDiv.innerHTML = `
+          <h2>Males</h2>
+          <ul>${users[0].map(user => `<li>${user.name} ${user.lastName} (ID: ${user.id}, Registered: ${user.timestamp})</li>`).join('')}</ul>
+          <h2>Females</h2>
+          <ul>${users[1].map(user => `<li>${user.name} ${user.lastName} (ID: ${user.id}, Registered: ${user.timestamp})</li>`).join('')}</ul>
+        `;
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    }
+
+    async function registerUser() {
+      try {
+        await fetch('/add-user');
+        fetchUsers();
+      } catch (error) {
+        console.error('Error registering user:', error);
+      }
+    }
+
+    async function deleteUsers() {
+      try {
+        await fetch('/delete-users');
+        document.getElementById('users').innerHTML = '';
+      } catch (error) {
+        console.error('Error deleting users:', error);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -9,7 +9,9 @@ Este proyecto es una aplicación Node.js que registra, muestra y elimina usuario
 3. Instala las dependencias:
   ```bash
   npm install
+```
 4. Corre el servidor:
   ```bash
     npm start
+```
 5. Ingresa a http://localhost:3000/
